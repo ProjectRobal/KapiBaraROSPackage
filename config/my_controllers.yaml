@@ -22,4 +22,4 @@ motors:
     wheel_separation: 0.1
     wheel_radius: 0.024
 
-    use_stamped_vel: false
+    use_stamped_vel: False
