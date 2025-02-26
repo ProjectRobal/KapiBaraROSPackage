@@ -15,7 +15,7 @@ def main(args=None):
 
     dumy_node=Node("imu_calibration")
 
-    initialize_devices(dumy_node,true)
+    initialize_devices(dumy_node,True)
 
     rclpy.spin(dumy_node)
 

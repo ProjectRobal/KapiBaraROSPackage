@@ -51,6 +51,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   scripts/sensor_broadcaster.py
   scripts/imu_calib.py
+  scripts/quanterion_decoder.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

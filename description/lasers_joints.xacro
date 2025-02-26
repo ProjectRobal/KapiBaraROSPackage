@@ -35,23 +35,6 @@
         </visual>
     </link>
 
-    <!-- FLOOR DISTANCE SENSOR -->
-
-    <joint name="floor_laser_joint" type="fixed">
-        <parent link="base"/>
-        <child link="floor_laser_link"/>
-        <origin xyz="-0.16 0.0 0.021" rpy="0 ${pi/5} ${pi}"/>
-    </joint>
-
-    <link name="floor_laser_link">
-        <visual>
-            <geometry>
-                <box size="0.01 0.01 0.01" />
-            </geometry>
-            <material name="red" />
-        </visual>
-    </link>
-
 
     <!-- SIDE LEFT DISTANCE SENSOR -->
 

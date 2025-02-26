@@ -16,8 +16,8 @@ class DistanceSensor(Device):
             self.SelectPort()
             self._i2c= busio.I2C(board.SCL, board.SDA)
             self._sensor=adafruit_vl53l0x.VL53L0X(self._i2c)
-            self._publisher = self._node.create_publisher(Range, self._name, 10)
-            self._timer=self._node.create_timer(self._time, self.callback)
+            #self._publisher = self._node.create_publisher(Range, self._name, 10)
+            #self._timer=self._node.create_timer(self._time, self.callback)
         except:
             raise errors.DeviceInitError(self.name(),"Cannot connect to I2C")
     

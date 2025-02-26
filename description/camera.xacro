@@ -3,11 +3,11 @@
 
     <joint name="camera_joint" type="fixed">
         <parent link="base"/>
-        <child link="camera_link"/>
+        <child link="camera"/>
         <origin xyz="-0.14 0.0 0.10" rpy="0 0 ${pi}"/>
     </joint>
 
-    <link name="camera_link">
+    <link name="camera">
         <visual>
             <geometry>
                 <box size="0.01 0.03 0.03" />
@@ -17,15 +17,15 @@
     </link>
 
     <joint name="camera_optical_joint" type="fixed">
-        <parent link="camera_link"/>
-        <child link="camera_link_optical"/>
+        <parent link="camera"/>
+        <child link="camera_optical"/>
         <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
     </joint>
 
-    <link name="camera_link_optical">
+    <link name="camera_optical">
     </link>
 
-    <gazebo reference="camera_link">
+    <gazebo reference="camera">
         <material>Gazebo/Black</material>
         
         <sensor name="camera" type="camera">
@@ -46,8 +46,8 @@
             </camera>
             <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
                 <ros>
-                <namespace>KapiBara</namespace>
-                <remapping>~/out:=camera</remapping>
+                    <namespace>KapiBara</namespace>
+                    <remapping>~/out:=camera</remapping>
                 </ros>
                 <frame_name>camera_link_optical</frame_name>
             </plugin>

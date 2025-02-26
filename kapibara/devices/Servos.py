@@ -5,8 +5,10 @@ from kapibara.libs.adafruit_pca9685 import PCA9685
 from adafruit_motor import servo
 from board import SCL, SDA
 import busio
+import math
 
 from kapibara_interfaces.msg import Servo
+from std_msgs.msg import Float64MultiArray
 
 class PWM:
     def __init__(self,off):
@@ -26,6 +28,7 @@ class Servos(Device):
             self.SelectPort()
             self.i2c=busio.I2C(SCL,SDA)
             self.pda=PCA9685(self.i2c)
+            self.set_frequency(50)
 
             for i in range(16):
                 self._servos[i]=servo.Servo(self.pda.channels[i])
@@ -33,8 +36,15 @@ class Servos(Device):
         except:
             raise errors.DeviceInitError(self.name(),"Cannot connect to i2c")
         
-    def callback(self,msg:Servo):
-        self.set_channel(msg.id,msg.angle)
+    def callback(self,msg:Float64MultiArray):
+        id=0
+        
+        for angle in msg.data:
+            try:
+                self.set_channel(id,angle*(180.0/math.pi))
+                id+=1
+            except ValueError:
+                print("Value: ",angle)
 
     def set_frequency(self,frequency):
         self.SelectPort()
@@ -43,7 +53,8 @@ class Servos(Device):
     def set_channel(self,channel,pwm):
         self.SelectPort()
         if channel < 16 and channel >= 0:
-            self._servos[channel].angle=pwm+self._offsets[channel]
+            angle=pwm+self._offsets[channel]        
+            self._servos[channel].angle=abs(angle)
 
     def set_offset(self,channel,offset):
         if channel < 16 and channel >= 0:
@@ -52,7 +63,7 @@ class Servos(Device):
     def start(self):
         
         self.subscription = self._node.create_subscription(
-        Servo,
+        Float64MultiArray,
         self._name,
         self.callback,
         10)

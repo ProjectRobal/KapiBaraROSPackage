@@ -4,23 +4,23 @@
     <xacro:unless value="$(arg sim_mode)">
         <ros2_control name="KapiBaraMotors" type="system">
             <hardware>
-                <plugin>tb6612_drive_simple/TB6612DriveSimple</plugin>
+                <plugin>vel_saltis_drive/VelSaltisDrive</plugin>
                 <param name="left_wheel_name">wheel_left1_joint</param>
                 <param name="right_wheel_name">wheel_right3_joint</param>
+
+                <!-- <param name="left_ear">left_ear_joint</param>
+                <param name="right_ear">right_ear_joint</param> -->
+                
                 <param name="max_speed">10</param>
                 <param name="loop_rate">30</param>
-                <param name="left_gpioA">406</param>
-                <param name="left_gpioB">407</param>
-                <param name="right_gpioA">404</param>
-                <param name="right_gpioB">405</param>
-                
             </hardware>
             <joint name="wheel_left1_joint">
                 <command_interface name="velocity">
-                    <param name="min">-10</param>
+                    <param name="min">-10</param> 
                     <param name="max">10</param>
                 </command_interface>
                 <state_interface name="velocity" />
+
                 <state_interface name="position" />
             </joint>
 
@@ -32,6 +32,50 @@
                 <state_interface name="velocity" />
                 <state_interface name="position" />
             </joint>
+
+            <!-- <joint name="right_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
+
+            <joint name="left_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint> -->
+
+        </ros2_control>
+
+        <ros2_control name="KapiBaraEars" type="system">
+            <hardware>
+                <plugin>vel_saltis_ears/VelSaltisEars</plugin>
+
+                <param name="left_ear_name">left_ear_joint</param>
+                <param name="right_ear_name">right_ear_joint</param>                
+                <param name="loop_rate">30</param>
+            </hardware>
+
+            <joint name="right_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
+
+            <joint name="left_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
+
         </ros2_control>
     </xacro:unless>
 
@@ -57,11 +101,33 @@
                 <state_interface name="velocity" />
                 <state_interface name="position" />
             </joint>
+
+            <joint name="right_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
+
+            <joint name="left_ear_joint">
+                <command_interface name="position">
+                    <param name="min">-10</param>
+                    <param name="max">10</param>
+                </command_interface>
+                <state_interface name="position" />
+            </joint>
         </ros2_control>
     </xacro:if>
 
     <gazebo>
-        <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+        <plugin name="kapibara_gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+            <ros>
+                <namespace>KapiBara</namespace>
+                <remapping>/tf:=/KapiBara/tf</remapping>
+                <remapping>/tf_static:=/KapiBara/tf_static</remapping>
+            </ros>
+            <robot_param_node>/KapiBara/robot_state_publisher</robot_param_node>
             <parameters>$(find kapibara)/config/my_controllers.yaml</parameters>
             <parameters>$(find kapibara)/config/my_controllers_sim.yaml</parameters>
         </plugin>

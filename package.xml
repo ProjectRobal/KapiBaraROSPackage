@@ -12,10 +12,12 @@
 
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
+  <depend>camera_ros</depend>
   <depend>kapibara_interfaces</depend>
   <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
+  <depend>robot_state_publisher </depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
