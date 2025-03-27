@@ -97,19 +97,27 @@ def generate_launch_description():
         namespace="KapiBara",
         parameters=[]
     )
+    
+    mqtt_bridge = Node(
+        package="mqtt_bridge",
+        executable="mqtt_bridge",
+        namespace=""
+    )
+    
     # Run the node
     return LaunchDescription([
         gazebo,
         node_robot_state_publisher,
         #rviz,
-        #state_publisher,
+        state_publisher,
         spawn,
-        # emotions,
+        emotions,
         diff_drive_spawner,
         joint_broad_spawner,
         ears_controller_spawner,
-        quaterion_to_euler,
-        mind
+        # quaterion_to_euler,
+        mind,
+        mqtt_bridge
     ])
 
 

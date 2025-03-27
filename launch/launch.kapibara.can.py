@@ -152,7 +152,7 @@ def generate_launch_description():
         package="camera_ros",
         executable="camera_node",
         namespace = 'KapiBara',
-        #arguments=['--ros-args', '--log-level', 'DEBUG'],
+        arguments=['--ros-args', '--log-level', 'info'],
         parameters=[
             {
                 "camera":0,
@@ -169,7 +169,7 @@ def generate_launch_description():
         package="emotion_estimer",
         executable="estimator.py",
         namespace = 'KapiBara',
-        arguments=[],
+        arguments=["--ros-args","--log-level","info"],
         parameters=[],
         output='screen'
     )
@@ -187,7 +187,7 @@ def generate_launch_description():
         package="kapibara_mind",
         executable="mind",
         namespace="KapiBara",
-        arguments=["--ros-args","--log-level","debug"],
+        arguments=["--ros-args","--log-level","info"],
         parameters=[]
     )
     
@@ -223,7 +223,7 @@ def generate_launch_description():
             on_start=[mind]
         )
     ) 
-
+    
     # Run the node
     return LaunchDescription([
         node_robot_state_publisher,
@@ -239,7 +239,7 @@ def generate_launch_description():
         delayed_ears_controller_spawner,
         mic_after_start,
         emotions_after_start,
-        mind_after_emotions,
+        # mind_after_emotions,
         # quaterion_to_euler,
         camera_after_start_seq,
         # sport_face_after_camera
