@@ -18,10 +18,10 @@ KapiBara/motors:
 
     publish_rate: 10.0
 
-    base_frame_id: base_link
+    base_frame_id: /KapiBara/base_link
 
-    left_wheel_names: ['wheel_left1_joint']
-    right_wheel_names: ['wheel_right3_joint']
+    left_wheel_names: ['/KapiBara/wheel_left1_joint']
+    right_wheel_names: ['/KapiBara/wheel_right3_joint']
     wheel_separation: 0.1
     wheel_radius: 0.024
 
@@ -30,5 +30,5 @@ KapiBara/motors:
 KapiBara/ears_controller:
   ros__parameters:
     joints:
-      - right_ear_joint
-      - left_ear_joint
+      - /KapiBara/right_ear_joint
+      - /KapiBara/left_ear_joint

@@ -21,19 +21,19 @@
 
     <!-- BASE LINK -->
 
-    <link name="base_link">
+    <link name="/$(arg robot_name)/base_link">
     
     </link>
 
     <!-- CHASSIS LINK -->
 
-    <joint name="chassis_joint" type="fixed">
-        <parent link="base_link" />
-        <child link="chassis" />
+    <joint name="/$(arg robot_name)/chassis_joint" type="fixed">
+        <parent link="/$(arg robot_name)/base_link" />
+        <child link="/$(arg robot_name)/chassis" />
         <origin xyz="0 0 0" />
     </joint>
 
-    <link name="chassis">
+    <link name="/$(arg robot_name)/chassis">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -44,19 +44,19 @@
         
     </link>
 
-    <gazebo reference="chassis">
+    <gazebo reference="/$(arg robot_name)/chassis">
         <material>Gazebo/Black</material>
     </gazebo>
 
     <!-- Base -->
 
-    <joint name="base_joint" type="fixed">
-        <parent link="chassis" />
-        <child link="base" />
+    <joint name="/$(arg robot_name)/base_joint" type="fixed">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/base" />
         <origin xyz="0.027 0 0.05" />
     </joint>
 
-    <link name="base">
+    <link name="/$(arg robot_name)/base">
         <visual>
             <origin xyz="0 0 0.05" />
             <geometry>
@@ -75,7 +75,7 @@
         </xacro:inertial_box>
     </link>
     
-    <gazebo reference="base">
+    <gazebo reference="/$(arg robot_name)/base">
         <material>Gazebo/Orange</material>
 
         <sensor type="contact" name="contact_sensor">
@@ -86,7 +86,7 @@
             </contact>
             <plugin name="bumper_plugin_kapibara" filename="libgazebo_ros_bumper.so">
                 <alwaysOn>true</alwaysOn>
-                <frameName>base</frameName>
+                <frameName>/$(arg robot_name)/base</frameName>
                 <ros>
                 <remapping>bumper_states:=collision</remapping>
                 </ros>
@@ -96,9 +96,9 @@
 
     <!-- LEFT WHEEL LINK -->
 
-    <joint name="wheel_left1_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="left_wheel1" />
+    <joint name="/$(arg robot_name)/wheel_left1_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/left_wheel1" />
         <axis xyz="0 0 1"/>
         
         <origin rpy="${-pi/2} 0 0" xyz="0.005 0.066 0.0135"/>
@@ -107,7 +107,7 @@
     </joint>
 
 
-    <link name="left_wheel1">
+    <link name="/$(arg robot_name)/left_wheel1">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -126,22 +126,22 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="left_wheel1">
+    <gazebo reference="/$(arg robot_name)/left_wheel1">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
     </gazebo>
 
 
-    <joint name="wheel_left2_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="left_wheel2" />
+    <joint name="/$(arg robot_name)/wheel_left2_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/left_wheel2" />
         <axis xyz="0 0 1"/>
         <origin rpy="${-pi/2} 0 0" xyz="0.065 0.066 0.0135"/>
     </joint>
 
 
-    <link name="left_wheel2">
+    <link name="/$(arg robot_name)/left_wheel2">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -160,22 +160,22 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="left_wheel2">
+    <gazebo reference="/$(arg robot_name)/left_wheel2">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
     </gazebo>
 
 
-    <joint name="wheel_left3_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="left_wheel3" />
+    <joint name="/$(arg robot_name)/wheel_left3_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/left_wheel3" />
         <axis xyz="0 0 1"/>
         <origin rpy="${-pi/2} 0 0" xyz="-0.055 0.066 0.0135"/>
     </joint>
 
 
-    <link name="left_wheel3">
+    <link name="/$(arg robot_name)/left_wheel3">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -194,7 +194,7 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="left_wheel3">
+    <gazebo reference="/$(arg robot_name)/left_wheel3">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
@@ -202,9 +202,9 @@
 
     <!-- RIGHT WHEEL LINK -->
 
-    <joint name="wheel_right1_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="right_wheel1" />
+    <joint name="/$(arg robot_name)/wheel_right1_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/right_wheel1" />
         <axis xyz="0 0 1"/>
         
         <origin rpy="${-pi/2} 0 0" xyz="0.005 -0.066 0.0135"/>
@@ -213,7 +213,7 @@
     </joint>
 
 
-    <link name="right_wheel1">
+    <link name="/$(arg robot_name)/right_wheel1">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -232,22 +232,22 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="right_wheel1">
+    <gazebo reference="/$(arg robot_name)/right_wheel1">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
     </gazebo>
 
 
-    <joint name="wheel_right2_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="right_wheel2" />
+    <joint name="/$(arg robot_name)/wheel_right2_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/right_wheel2" />
         <axis xyz="0 0 1"/>
         <origin rpy="${-pi/2} 0 0" xyz="0.065 -0.066 0.0135"/>
     </joint>
 
 
-    <link name="right_wheel2">
+    <link name="/$(arg robot_name)/right_wheel2">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -266,22 +266,22 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="right_wheel2">
+    <gazebo reference="/$(arg robot_name)/right_wheel2">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
     </gazebo>
 
 
-    <joint name="wheel_right3_joint" type="continuous">
-        <parent link="chassis" />
-        <child link="right_wheel3" />
+    <joint name="/$(arg robot_name)/wheel_right3_joint" type="continuous">
+        <parent link="/$(arg robot_name)/chassis" />
+        <child link="/$(arg robot_name)/right_wheel3" />
         <axis xyz="0 0 1"/>
         <origin rpy="${-pi/2} 0 0" xyz="-0.055 -0.066 0.0135"/>
     </joint>
 
 
-    <link name="right_wheel3">
+    <link name="/$(arg robot_name)/right_wheel3">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -300,7 +300,7 @@
         </xacro:inertial_cylinder>
     </link>
 
-    <gazebo reference="right_wheel3">
+    <gazebo reference="/$(arg robot_name)/right_wheel3">
         <material>Gazebo/White</material>
         <mu1 value="0.5"/>
         <mu2 value="0.5"/>
@@ -309,15 +309,15 @@
     <!-- EARS -->
 
 
-    <joint name="left_ear_joint" type="revolute">
-        <parent link="base" />
-        <child link="left_ear" />
+    <joint name="/$(arg robot_name)/left_ear_joint" type="revolute">
+        <parent link="/$(arg robot_name)/base" />
+        <child link="/$(arg robot_name)/left_ear" />
         <axis xyz="0 -1 0"/>
         <origin rpy="0 ${pi/2} 0" xyz="-0.09 0.075 0.09" />
         <limit effort="1" velocity="1" upper="${pi}" lower="0" />
     </joint>
 
-    <link name="left_ear">
+    <link name="/$(arg robot_name)/left_ear">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>
@@ -337,15 +337,15 @@
     </link>
 
 
-     <joint name="right_ear_joint" type="revolute">
-        <parent link="base" />
-        <child link="righ_ear" />
+     <joint name="/$(arg robot_name)/right_ear_joint" type="revolute">
+        <parent link="/$(arg robot_name)/base" />
+        <child link="/$(arg robot_name)/righ_ear" />
         <axis xyz="0 -1 0"/>
         <origin rpy="0 ${pi/2} 0" xyz="-0.09 -0.070 0.09" />
         <limit effort="1" velocity="1" upper="${pi}" lower="0" />
     </joint>
 
-    <link name="righ_ear">
+    <link name="/$(arg robot_name)/righ_ear">
         <visual>
             <origin xyz="0 0 0" />
             <geometry>

@@ -22,7 +22,7 @@ def generate_launch_description():
     # Use xacro to process the file
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     
-    robot_description_raw = xacro.process_file(xacro_file).toxml()
+    robot_description_raw = xacro.process_file(xacro_file,mappings={'robot_name' : 'KapiBara'}).toxml()
     
     # Configure the node
     node_robot_state_publisher = Node(
@@ -31,11 +31,7 @@ def generate_launch_description():
         output='screen',
         namespace = 'KapiBara',
         parameters=[{'robot_description': robot_description_raw,
-        'use_sim_time': False}], # add other parameters here if required
-        remappings=[
-            ('/tf','/KapiBara/tf'),
-            ('/tf_static','/KapiBara/tf_static')
-        ]
+        'use_sim_time': False}] # add other parameters here if required
     )
 
     controller_params_file = os.path.join(get_package_share_directory(pkg_name),'config','my_controllers.yaml')
@@ -143,11 +139,6 @@ def generate_launch_description():
     )
     
     
-    # delayed_start_sequence = TimerAction(period=10.0,actions=[
-    #     start_sequence
-    # ])    
-    
-    
     camera_node = Node(
         package="camera_ros",
         executable="camera_node",
@@ -199,10 +190,6 @@ def generate_launch_description():
     )
 
     
-    delayed_emotions = TimerAction(period=10.0,actions=[
-        emotions
-    ])   
-    
     mic_after_start = RegisterEventHandler(
         event_handler=OnProcessStart(
             target_action=start_sequence,
@@ -210,6 +197,13 @@ def generate_launch_description():
         )
     ) 
      
+    mind_after_start = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=start_sequence,
+            on_exit=[mind]
+        )
+    )
+    
     emotions_after_start = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=start_sequence,
@@ -217,12 +211,18 @@ def generate_launch_description():
         )
     )
     
-    mind_after_emotions = RegisterEventHandler(
+    emotions_after_mind = RegisterEventHandler(
         event_handler=OnProcessStart(
-            target_action=emotions,
-            on_start=[mind]
+            target_action=mind,
+            on_start=[emotions]
         )
     ) 
+    
+    mqtt_bridge = Node(
+        package="mqtt_bridge",
+        executable="mqtt_bridge",
+        namespace=""
+    )
     
     # Run the node
     return LaunchDescription([
@@ -238,12 +238,12 @@ def generate_launch_description():
         delayed_joint_broad_spawner,
         delayed_ears_controller_spawner,
         mic_after_start,
+        
+        # mind_after_start,
+        # emotions_after_mind,
         emotions_after_start,
-        # mind_after_emotions,
-        # quaterion_to_euler,
         camera_after_start_seq,
-        # sport_face_after_camera
-        # midas_after_camera
+        mqtt_bridge
     ])
 
 

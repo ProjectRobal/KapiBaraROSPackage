@@ -20,7 +20,7 @@ def generate_launch_description():
 
     # Use xacro to process the file
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
-    robot_description_raw = xacro.process_file(xacro_file,mappings={'sim_mode' : 'true'}).toxml()
+    robot_description_raw = xacro.process_file(xacro_file,mappings={'sim_mode' : 'true','robot_name' : 'KapiBara'}).toxml()
 
     gazebo_env = SetEnvironmentVariable("GAZEBO_MODEL_PATH", os.path.join(get_package_prefix("kapibara"), "share"))
 
@@ -31,11 +31,7 @@ def generate_launch_description():
         output='screen',
         namespace = 'KapiBara',
         parameters=[{'robot_description': robot_description_raw,
-        'use_sim_time': True}], # add other parameters here if required
-        remappings=[
-            ('/tf','/KapiBara/tf'),
-            ('/tf_static','/KapiBara/tf_static')
-        ]
+        'use_sim_time': True}] # add other parameters here if required
     )
 
     gazebo = IncludeLaunchDescription(
@@ -98,26 +94,42 @@ def generate_launch_description():
         parameters=[]
     )
     
+    mic = Node(
+        package="microphone",
+        executable="mic.py",
+        namespace = 'KapiBara',
+        arguments=[],
+        parameters=[{"channels":2,"sample_rate":44100,"chunk_size":4096,"device_id":5}],
+        output='screen'
+    )
+    
     mqtt_bridge = Node(
         package="mqtt_bridge",
         executable="mqtt_bridge",
+        parameters=[{"stop_mind_enable":False}],
+        remappings=[
+            ('microphone','/KapiBara/mic'),
+        ],
         namespace=""
     )
+    
     
     # Run the node
     return LaunchDescription([
         gazebo,
         node_robot_state_publisher,
         #rviz,
-        state_publisher,
+        # state_publisher,
         spawn,
-        emotions,
+        # emotions,
         diff_drive_spawner,
         joint_broad_spawner,
         ears_controller_spawner,
         # quaterion_to_euler,
-        mind,
-        mqtt_bridge
+        # mind,
+        # mqtt_bridge,
+        # mic,
+        # voice_assitant
     ])
 
 
